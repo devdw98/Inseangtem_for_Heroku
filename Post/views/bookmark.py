@@ -15,12 +15,21 @@ class BookMarkViewSet(viewsets.ModelViewSet):
     queryset = BookMark.objects.all()
     serializer_class = BookMarkSerializer
 
-    def list(self, request, *args, **kwargs):
+    # def list(self, request, *args, **kwargs):
+    #     # user_id = request.data.get("user_id")
+    #     # queryset = self.get_queryset()
+    #     # queryset = queryset.filter(user_id=user_id)
+    #     # serializer = self.get_serializer(queryset, many=True)
+    #     # if serializer.is_valid():
+    #     #     return Response(serializer.data, status=200)
+    #     # return Response(serializer.error, status=500)
+    #     user_id = request.data.get("user_id")
 
-        queryset = self.get_queryset()
-        queryset = queryset.filter(user_id=request.user)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        user_id = self.request.query_params.get("user_id")
+        qs = super().get_queryset()        
+        qs = qs.filter(user_id=user_id)
+        return qs
 
     def create(self, request, *args, **kwargs):
         bookmark_user_id = request.data.get("user_id")
