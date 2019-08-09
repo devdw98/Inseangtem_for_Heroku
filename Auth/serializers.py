@@ -5,3 +5,4 @@ class IstUserSerializer(ModelSerializer):
     class Meta:
         model = IstUser
         fields = ['pk','username']
+    
